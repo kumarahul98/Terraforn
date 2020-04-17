@@ -49,6 +49,9 @@ resource "aws_instance" "nginx-instance"{
 		user = var.INSTANCE_USERNAME
 		private_key = file(var.PRIVATE_KEY)
 	}
+#	provisioner "local-exec" {
+#		command = "echo -e 'public ip :  \e[101m ${aws_instance.nginx-instance.public_ip}' " 
+#	}
 }
 resource "aws_network_interface_sg_attachment" "sg_attachment" {
   security_group_id    = aws_security_group.terraform-sg-ssh.id
@@ -58,4 +61,6 @@ resource "aws_network_interface_sg_attachment" "sg_attachment" {
 output "ip"{
 	value = aws_instance.nginx-instance.public_ip
 }
+
+
 
