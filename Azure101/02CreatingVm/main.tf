@@ -28,7 +28,7 @@ resource "azurerm_linux_virtual_machine" "CVm1" {
   name                = "${var.prefix}-machine"
   resource_group_name = var.sg-name
   location            = var.sg-location
-  size                = "Standard_F2"
+  size                = "Standard_D2s_v3"
   admin_username      = "adminuser"
   network_interface_ids = [
     azurerm_network_interface.CVm1.id,

@@ -16,9 +16,11 @@ variable "prefix" {
 }
 variable "sg-name"{
     description = "to store the name of the resource group"
-    default = "Terrform-101"
+    default = "SouthIndia-linux-terraform-external-RG"
 }
 variable "sg-location"{
     description = "to store the location name of the resource group"
-    default = "southindia"
+    default = "eastus"
 }
+
+
