@@ -61,17 +61,10 @@ resource "aws_security_group" "sg-port22" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   ingress  {
-    description = "All for All"
-    from_port   = 0
-    to_port     = 0
-    protocol    = -1
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  ingress  {
     description = "icmp"
-    from_port   = 8
-    to_port     = 1
-    protocol    = 1
+    from_port   = -1
+    to_port     = -1
+    protocol    = "icmp"
     cidr_blocks = ["0.0.0.0/0"]
   }
   egress {
@@ -86,6 +79,7 @@ resource "aws_security_group" "sg-port22" {
   }
 }
 
+
 resource "aws_key_pair" "kp" {
   key_name   = "Terr-key"
   public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC76LBe3sXEXzD+xYKGvLalE9cs9xf+ILyWeSzzxmfDF/Hu01Wz0FEp/gWWZji3BawKRtmSJVPErnql4IQtRvN7nvcErMj09e9PX/jCuunWXPiHMkV8uLt5/xN9qUdxoUQrnrSrJiWDyyfJznD2j2s60snXMy7WlePxoJzeklyAlMoTSR9S2Yo9UK+DU+ygcOS02X5KZUU2ZF9R0DD0mexHKNCA4qrpsNC3tjx0r/9DmJk/wF54r5J8RPKYajBAhC2hc4auxiLezTEgNbx3ymi84rS/2QNtNigu9mXbT6kgBKvdMhaFECD1MxERIqwUYYjtnz9hojnoyEhqQIHx0tkv rahul@instance-1"
@@ -97,6 +91,11 @@ resource "aws_instance" "instance1" {
   associate_public_ip_address = true
   subnet_id                   = aws_subnet.sub1.id
   vpc_security_group_ids = [aws_security_group.sg-port22.id]
+  root_block_device {
+    volume_type = "standard"
+    volume_size = 30
+
+  }
   tags = {
     Name = "Terraform-Assignment"
   }
