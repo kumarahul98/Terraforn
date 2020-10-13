@@ -14,6 +14,21 @@ resource "aws_internet_gateway" "igw" {
   }
 }
 
+resource "aws_route_table" "rt"{
+  vpc_id = aws_vpc.vpc.id
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.igw.id
+  }
+  tags = {
+    Name = "Terraform-Assignment"
+  }
+}
+resource "aws_route_table_association" "as"{
+  subnet_id = aws_subnet.sub1.id
+  route_table_id = aws_route_table.rt.id
+}
+
 resource "aws_subnet" "sub1" {
   vpc_id                 = aws_vpc.vpc.id
   cidr_block             = "10.0.0.0/24"
@@ -43,6 +58,27 @@ resource "aws_security_group" "sg-port22" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress  {
+    description = "All for All"
+    from_port   = 0
+    to_port     = 0
+    protocol    = -1
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress  {
+    description = "icmp"
+    from_port   = 8
+    to_port     = 1
+    protocol    = 1
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  egress {
+    description = "All for All"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
   tags = {
